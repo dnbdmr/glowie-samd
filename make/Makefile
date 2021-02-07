@@ -28,7 +28,8 @@ LDFLAGS += -Wl,--script=../linker/samd11c14.ld
 #LIBS = --specs=nano.specs -u _printf_float -u _scanf_float
 
 INCLUDES += \
-  -I../include \
+  -I../tinyusb/hw/mcu/microchip/samd11/include/ \
+  -I../tinyusb/hw/mcu/microchip/samd11/CMSIS/Core/Include/ \
   -I../tinyusb/src \
   -I..
 
