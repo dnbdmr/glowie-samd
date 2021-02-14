@@ -257,9 +257,8 @@ uint8_t gamma8[] = {
 #define NUMPIX	50
 #define NUMBYTES	NUMPIX*3
 #define MAXDELAY 0x1F	// 32s total up+down
-//#define MAXHOLD	0xfFF	// 255ms
-#define MAXHOLD	0x1FF	// 255ms
-#define	MAXWAIT	0x7FF	// 4.096ms
+#define MAXHOLD	0xFF	// 255ms
+#define	MAXWAIT	0xFFF	// 4.096ms
 
 enum rgb_states {
 	state_up,
@@ -290,7 +289,7 @@ void neo_init(struct rand_RGB *pixel)
 {
 	pixel->r_max = rand() & 0xFF;
 	pixel->g_max = rand() & 0xFF;
-	pixel->b_max = rand() & 0xFF;
+	pixel->b_max = LIMIT(rand() & 0xFF, 100);
 	pixel->delay_max = rand() & MAXDELAY;
 	pixel->delay_hold = rand() & MAXHOLD;
 	pixel->delay_wait = rand() & MAXWAIT;
