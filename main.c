@@ -74,33 +74,6 @@ void delay_us(uint32_t us)
 }
 
 //-----------------------------------------------------------------------------
-// Invoked when usb bus is suspended
-// remote_wakeup_en : if host allow us	to perform remote wakeup
-// Within 7ms, device must draw an average of current less than 2.5 mA from bus
-void tud_suspend_cb(bool remote_wakeup_en)
-{
-	(void) remote_wakeup_en;
-	HAL_GPIO_LED2_in();
-	uint8_t temp[24] = { 0 };
-	ws2812_sendarray(temp, 24);
-	delay_us(100);
-	SysTick->CTRL &= ~(SysTick_CTRL_ENABLE_Msk); //disable systick
-	uint32_t *a = (uint32_t *)(0x40000838); // Disable BOD12, SAMD11 errata #15513
-	*a = 0x00000004;
-	//SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-	__WFI();
-	*a = 0x00000006; // Enable BOD12, SAMD11 errata #15513
-}
-
-// Invoked when usb bus is resumed
-void tud_resume_cb(void)
-{
-	HAL_GPIO_LED2_out();
-	SysTick->CTRL &= ~(SysTick_CTRL_ENABLE_Msk); //disable systick
-	SysTick_Config(48000); //systick at 1ms
-}
-
-//-----------------------------------------------------------------------------
 // Invoked when cdc when line state changed e.g connected/disconnected
 void tud_cdc_line_state_cb(uint8_t itf, bool dtr, bool rts)
 {
