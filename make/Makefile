@@ -44,6 +44,8 @@ SRCS += \
   ../tinyusb/src/class/cdc/cdc_device.c \
   ../usb_descriptors.c \
   ../light_ws2812_cortex.c \
+  ../spi_master.c \
+  ../dma.c \
   ../utils.c
 
 DEFINES += \
