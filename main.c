@@ -40,7 +40,7 @@
 
 /*- Definitions -------------------------------------------------------------*/
 HAL_GPIO_PIN(LED2,	A, 27)	// On board LED
-HAL_GPIO_PIN(NEOPIN,	A, 2)	// Neopixel output
+HAL_GPIO_PIN(NEOPIN,	A, 5)	// Neopixel output
 
 /*- Implementations ---------------------------------------------------------*/
 

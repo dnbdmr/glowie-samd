@@ -172,11 +172,11 @@ char const* string_desc_arr [] =
 {
 	(const char[]) { 0x09, 0x04 }, // 0: is supported language is English (0x0409)
 	"DNBDMR",                     // 1: Manufacturer
-	"TinyUSB D11D",              // 2: Product
+	"Glowie",              // 2: Product
 	"123456",                      // 3: Serials, should use chip ID
-	"TinyUSB CDC",                 // 4: CDC Interface
-	"TinyUSB MSC",                 // 5: MSC Interface
-	"TinyUSB HID"                  // 6: HID
+	"CDC",                 // 4: CDC Interface
+	"MSC",                 // 5: MSC Interface
+	"HID"                  // 6: HID
 };
 
 static uint16_t _desc_str[33];
