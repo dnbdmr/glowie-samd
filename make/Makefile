@@ -1,7 +1,7 @@
 ##############################################################################
 BUILD = build
-BIN = dgw
-PORT = /dev/serial/by-id/usb-DNBDMR_TinyUSB_D11D_CEF3EF1D514D4B53334A2020FF071B46-if00
+BIN = glowie
+PORT = /dev/serial/by-id/usb-DNBDMR_Glowie_3C1FA499514E4B3257202020FF0F082D-if00
 
 ##############################################################################
 .PHONY: all directory clean size fdfu dump
@@ -47,13 +47,13 @@ SRCS += \
   ../utils.c
 
 DEFINES += \
-  -D__SAMD11D14AM__ \
+  -D__SAMD11C14A__ \
   -DDONT_USE_CMSIS_INIT \
   -DF_CPU=48000000 \
   -DSTARTUP_FROM_RESET \
   -DLIGHT_WS2812_UC_SAMD \
   -DLIGHT_WS2812_GPIO_PORT=0 \
-  -DLIGHT_WS2812_GPIO_PIN=2
+  -DLIGHT_WS2812_GPIO_PIN=5
 
 CFLAGS += $(INCLUDES) $(DEFINES)
 
