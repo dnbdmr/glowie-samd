@@ -39,7 +39,6 @@
 #include "utils.h"
 
 /*- Definitions -------------------------------------------------------------*/
-HAL_GPIO_PIN(LED2,	A, 27)	// On board LED
 HAL_GPIO_PIN(NEOPIN,	A, 5)	// Neopixel output
 
 /*- Implementations ---------------------------------------------------------*/
@@ -214,15 +213,13 @@ void neo_task(void)
 int main(void)
 {
 	srand(2);
+	HAL_GPIO_NEOPIN_out();
+	HAL_GPIO_LED2_clr();
 	neo_init_all();
 	tusb_init();
 
-	HAL_GPIO_LED2_out();
-	HAL_GPIO_LED2_clr();
-
 	uint8_t line[25];
 
-	HAL_GPIO_NEOPIN_out();
 	uint32_t neo_time = millis();
 	//uint8_t neo_pos = 0;
 	uint32_t blink_time = millis();
@@ -264,12 +261,6 @@ int main(void)
 			ws2812_sendarray(out_buf, NUMBYTES);
 		}
 		*/
-
-		if (millis() - blink_time >= blink_rate) {
-			HAL_GPIO_LED2_toggle();
-			blink_time = millis();
-		}
-
 	}
 
 	return 0;
