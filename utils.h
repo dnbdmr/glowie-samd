@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2020, DNBDMR <dnbdmr@gmail.com>
  * Copyright (c) 2016, Alex Taradov <alex@taradov.com>
  * All rights reserved.
  *
@@ -33,6 +34,13 @@
 #define PACK            __attribute__((packed))
 #define INLINE          static inline __attribute__((always_inline))
 #define LIMIT(a, b)     (((a) > (b)) ? (b) : (a))
+
+/*- Prototypes --------------------------------------------------------------*/
+uint32_t millis(void);
+void delay_us(uint32_t us);
+uint8_t cdc_task(uint8_t line[], uint8_t max);
+void print_help(void);
+int atoi2(const char *str);
 
 #endif // _UTILS_H_
 

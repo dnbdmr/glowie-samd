@@ -43,7 +43,8 @@ SRCS += \
   ../tinyusb/src/portable/microchip/samd/dcd_samd.c \
   ../tinyusb/src/class/cdc/cdc_device.c \
   ../usb_descriptors.c \
-  ../light_ws2812_cortex.c
+  ../light_ws2812_cortex.c \
+  ../utils.c
 
 DEFINES += \
   -D__SAMD11D14AM__ \
