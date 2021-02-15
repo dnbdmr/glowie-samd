@@ -50,7 +50,8 @@ HAL_GPIO_PIN(MOSI,            A, 8);
 //-----------------------------------------------------------------------------
 int spi_init(int freq, int mode)
 {
-  int baud = F_CPU / (2 * freq) - 1;
+  //int baud = F_CPU / (2 * freq) - 1;
+  int baud = 7; // At freq = 3E6
 
   if (baud < 0)
     baud = 0;
@@ -58,7 +59,8 @@ int spi_init(int freq, int mode)
   if (baud > 255)
     baud = 255;
 
-  freq = F_CPU / (2 * (baud + 1));
+  //freq = F_CPU / (2 * (baud + 1));
+  freq = 3000000; // at baud = 7
 
   //HAL_GPIO_MISO_in();
   //HAL_GPIO_MISO_pmuxen(SPI_SERCOM_PMUX);
