@@ -26,38 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdbool.h>
+#include "sam.h"
 #include "hal_gpio.h"
 #include "dma.h"
 
 /*- Data --------------------------------------------------------------------*/
-uint8_t dmadata[] = {
-	'a',
-	'b',
-	'c',
-	'd',
-	'e',
-	'f',
-	'g',
-	'h',
-	'i',
-	'j',
-	'k',
-	'l',
-	'm',
-	'n',
-	'o',
-	'p',
-	'q',
-	'r',
-	's',
-	't',
-	'u',
-	'v',
-	'w',
-	'x',
-	'y',
-	'z',
-	'\n'};
+extern uint8_t out_buf[];
 
 volatile DmacDescriptor descarray[1];
 DmacDescriptor descarray_wb[1];
@@ -66,10 +41,10 @@ DmacDescriptor descarray_wb[1];
 void dma_init(void)
 {
 	descarray[0].BTCTRL.reg = DMAC_BTCTRL_VALID | DMAC_BTCTRL_SRCINC | DMAC_BTCTRL_STEPSEL;
-	descarray[0].BTCNT.reg = 27;
-	descarray[0].DSTADDR.reg = (uint32_t)&(SERCOM1->USART.DATA.reg);
-	descarray[0].SRCADDR.reg = (uint32_t)dmadata + 27;
-	descarray[0].DESCADDR.reg = (uint32_t)&(descarray[0]);
+	descarray[0].BTCNT.reg = 600;
+	descarray[0].DSTADDR.reg = (uint32_t)&(SERCOM0->SPI.DATA.reg);
+	descarray[0].SRCADDR.reg = (uint32_t)out_buf + 600;
+	descarray[0].DESCADDR.reg = 0;
 
 	DMAC->BASEADDR.reg = (uint32_t)descarray;
 	DMAC->WRBADDR.reg = (uint32_t)descarray_wb;
@@ -79,7 +54,7 @@ void dma_init(void)
 	DMAC->CTRL.reg = DMAC_CTRL_DMAENABLE | DMAC_CTRL_LVLEN(0xf);
 
 	DMAC->CHID.reg = 0; // select channel 0
-	DMAC->CHCTRLB.reg = DMAC_CHCTRLB_LVL(0) | DMAC_CHCTRLB_TRIGSRC(SERCOM1_DMAC_ID_TX) | DMAC_CHCTRLB_TRIGACT_BEAT;
+	DMAC->CHCTRLB.reg = DMAC_CHCTRLB_LVL(0) | DMAC_CHCTRLB_TRIGSRC(SERCOM0_DMAC_ID_TX) | DMAC_CHCTRLB_TRIGACT_BEAT;
 }
 
 void dma_ch_enable(uint8_t channel)
@@ -92,4 +67,13 @@ void dma_ch_disable(uint8_t channel)
 {
 	DMAC->CHID.reg = channel; // select channel
 	DMAC->CHCTRLA.reg &= !(DMAC_CHCTRLA_ENABLE);
+}
+
+bool dma_ch_enabled(uint8_t channel)
+{
+	DMAC->CHID.reg = channel; // select channel
+	if (DMAC->CHCTRLA.bit.ENABLE)
+		return true;
+	else
+		return false;
 }

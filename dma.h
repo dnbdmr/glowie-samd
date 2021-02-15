@@ -31,11 +31,11 @@
 
 /*- Includes ----------------------------------------------------------------*/
 #include <stdint.h>
-#include "sam.h"
 
 /*- Prototypes --------------------------------------------------------------*/
 void dma_init(void);
 void dma_ch_enable(uint8_t channel);
 void dma_ch_disable(uint8_t channel);
+bool dma_ch_enabled(uint8_t channel);
 
 #endif // _DMA_H_

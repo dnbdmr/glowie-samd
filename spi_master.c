@@ -30,14 +30,14 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "samd21.h"
+#include "sam.h"
 #include "hal_gpio.h"
 #include "spi_master.h"
 
 /*- Definitions -------------------------------------------------------------*/
 //HAL_GPIO_PIN(MISO,            A, 4);
-HAL_GPIO_PIN(MOSI,            A, 6);
-HAL_GPIO_PIN(SCLK,            A, 7);
+HAL_GPIO_PIN(MOSI,            A, 8);
+//HAL_GPIO_PIN(SCLK,            A, 9);
 //HAL_GPIO_PIN(SS,              A, 5);
 #define SPI_SERCOM            SERCOM0
 #define SPI_SERCOM_PMUX       PORT_PMUX_PMUXE_D_Val
@@ -66,8 +66,8 @@ int spi_init(int freq, int mode)
   HAL_GPIO_MOSI_out();
   HAL_GPIO_MOSI_pmuxen(SPI_SERCOM_PMUX);
 
-  HAL_GPIO_SCLK_out();
-  HAL_GPIO_SCLK_pmuxen(SPI_SERCOM_PMUX);
+  //HAL_GPIO_SCLK_out();
+  //HAL_GPIO_SCLK_pmuxen(SPI_SERCOM_PMUX);
 
   //HAL_GPIO_SS_out();
   //HAL_GPIO_SS_set();
@@ -80,7 +80,7 @@ int spi_init(int freq, int mode)
   SPI_SERCOM->SPI.CTRLA.reg = SERCOM_SPI_CTRLA_SWRST;
   while (SPI_SERCOM->SPI.CTRLA.reg & SERCOM_SPI_CTRLA_SWRST);
 
-  SPI_SERCOM->SPI.CTRLB.reg = SERCOM_SPI_CTRLB_RXEN;
+  //SPI_SERCOM->SPI.CTRLB.reg = SERCOM_SPI_CTRLB_RXEN;
 
   SPI_SERCOM->SPI.BAUD.reg = baud;
 
