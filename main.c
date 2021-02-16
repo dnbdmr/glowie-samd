@@ -115,15 +115,16 @@ struct rand_RGB {
 } pixels[NUMPIX] = { 0 };
 
 uint8_t out_buf[NUMBYTES] = { 0 };
+unsigned int seed = 1;
 
 void neo_init(struct rand_RGB *pixel)
 {
-	pixel->r_max = rand() & 0xFF;
-	pixel->g_max = rand() & 0xFF;
-	pixel->b_max = LIMIT(rand() & 0xFF, 100);
-	pixel->delay_max = rand() & MAXDELAY;
-	pixel->delay_hold = rand() & MAXHOLD;
-	pixel->delay_wait = rand() & MAXWAIT;
+	pixel->r_max = rand_r(&seed) & 0xFF;
+	pixel->g_max = rand_r(&seed) & 0xFF;
+	pixel->b_max = LIMIT(rand_r(&seed) & 0xFF, 100);
+	pixel->delay_max = rand_r(&seed) & MAXDELAY;
+	pixel->delay_hold = rand_r(&seed) & MAXHOLD;
+	pixel->delay_wait = rand_r(&seed) & MAXWAIT;
 }
 
 void neo_init_all(void)
@@ -212,7 +213,6 @@ void neo_task(void)
 //-----------------------------------------------------------------------------
 int main(void)
 {
-	srand(2);
 	HAL_GPIO_NEOPIN_out();
 	HAL_GPIO_LED2_clr();
 	neo_init_all();
@@ -237,7 +237,7 @@ int main(void)
 			}
 			else if (line[0] == 'r') {
 				char s[20];
-				itoa(rand()&0xFF, s, 10);
+				itoa(rand_r(&seed)&0xFF, s, 10);
 				tud_cdc_write_str(s);
 				tud_cdc_write_char('\n');
 			}
