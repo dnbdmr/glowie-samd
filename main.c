@@ -39,7 +39,7 @@
 #include "utils.h"
 
 /*- Definitions -------------------------------------------------------------*/
-HAL_GPIO_PIN(NEOPIN,	A, 5)	// Neopixel output
+HAL_GPIO_PIN(NEOPIN,	A, 8)	// Neopixel output
 
 /*- Implementations ---------------------------------------------------------*/
 
@@ -214,7 +214,6 @@ void neo_task(void)
 int main(void)
 {
 	HAL_GPIO_NEOPIN_out();
-	HAL_GPIO_LED2_clr();
 	neo_init_all();
 	tusb_init();
 
@@ -222,20 +221,13 @@ int main(void)
 
 	uint32_t neo_time = millis();
 	//uint8_t neo_pos = 0;
-	uint32_t blink_time = millis();
-	uint32_t blink_rate = 500;
 
 	while (1)
 	{
 		tud_task();
 
 		if (cdc_task(line, 25)) {
-			if (line[0] == 'b') {
-				uint32_t ms = atoi2((char *)&line[1]);
-				if (ms > 0 && ms < 50000)
-					blink_rate = ms;
-			}
-			else if (line[0] == 'r') {
+			if (line[0] == 'r') {
 				char s[20];
 				itoa(rand_r(&seed)&0xFF, s, 10);
 				tud_cdc_write_str(s);

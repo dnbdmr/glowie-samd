@@ -1,6 +1,7 @@
 Random fading light string with Atmel SAMD
 
 __TODO__
+- Check dotstar spi string
 - only update when necessary
 - measure time of neo\_task
 - set delays from cdc
