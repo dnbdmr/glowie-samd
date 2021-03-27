@@ -34,6 +34,7 @@
 #include "sam.h"
 #include "tusb.h"
 #include "utils.h"
+#include "light_ws2812_cortex.h"
 
 static volatile uint32_t msticks = 0;
 
@@ -63,6 +64,29 @@ void delay_us(uint32_t us)
 	uint32_t time = SysTick->VAL;
 	while ((time - SysTick->VAL) < us);
 }
+
+//-----------------------------------------------------------------------------
+// Invoked when usb bus is suspended
+// remote_wakeup_en : if host allow us to perform remote wakeup
+// Within 7ms, device must draw an average of current less than 2.5 mA from bus
+void tud_suspend_cb(bool remote_wakeup_en)
+{
+       (void) remote_wakeup_en;
+       ws2812_sendzero(50*3); // TODO: magic number
+       delay_us(200);
+       SysTick->CTRL &= ~(SysTick_CTRL_ENABLE_Msk); //disable systick
+       uint32_t *a = (uint32_t *)(0x40000838); // Disable BOD12, SAMD11 errata #15513
+       *a = 0x00000004;
+       __WFI();
+       *a = 0x00000006; // Enable BOD12, SAMD11 errata #15513
+       SysTick_Config(48000); //systick at 1ms
+}
+
+// Invoked when usb bus is resumed
+void tud_resume_cb(void)
+{
+}
+
 
 //-----------------------------------------------------------------------------
 // Invoked when cdc when line state changed e.g connected/disconnected

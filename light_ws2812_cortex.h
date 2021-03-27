@@ -107,6 +107,7 @@
 ///////////////////////////////////////////////////////////////////////
 
 void ws2812_sendarray(uint8_t *ledarray,int length) __attribute__ ((section (".ramfunc")));
+void ws2812_sendzero(uint8_t len) __attribute__ ((section (".ramfunc")));
 
 #ifdef __cplusplus
 }

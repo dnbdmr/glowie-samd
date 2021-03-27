@@ -40,6 +40,7 @@
 
 /*- Definitions -------------------------------------------------------------*/
 HAL_GPIO_PIN(NEOPIN,	A, 8)	// Neopixel output
+void tud_suspend_cb(bool);
 
 /*- Implementations ---------------------------------------------------------*/
 
@@ -235,6 +236,14 @@ int main(void)
 			}
 			else if (line[0] == '?') {
 				print_help();
+			}
+			else if (line[0] == 'z') {
+				uint32_t pausetime = millis();
+				ws2812_sendzero(NUMBYTES);
+				while ((millis() - pausetime) < 1000);
+			}
+			else if (line[0] == 'Z') {
+				tud_suspend_cb(0);
 			}
 		}
 

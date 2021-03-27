@@ -106,3 +106,10 @@ void ws2812_sendarray(uint8_t *data,int datlen)
 	}
 }
 
+void ws2812_sendzero(uint8_t len)
+{
+	uint8_t i = 0;
+	while (len--) {
+		ws2812_sendarray(&i, 1);
+	}
+}
